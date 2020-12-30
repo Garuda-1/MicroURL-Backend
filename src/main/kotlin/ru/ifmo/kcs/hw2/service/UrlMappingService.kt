@@ -10,8 +10,8 @@ class UrlMappingService {
     @Autowired
     private lateinit var urlMappingRepo: UrlMappingRepository
 
-    fun getByShortUrl(shortUrl: String): UrlMapping {
-        return urlMappingRepo.findById(shortUrl).get()
+    fun getByShortUrl(shortUrl: String): UrlMapping? {
+        return urlMappingRepo.findById(shortUrl).orElse(null)
     }
 
     fun saveNewMapping(urlMapping: UrlMapping) {

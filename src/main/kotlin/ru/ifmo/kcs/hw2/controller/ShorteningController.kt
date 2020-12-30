@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.*
 import ru.ifmo.kcs.hw2.model.UrlMapping
 import ru.ifmo.kcs.hw2.service.UrlMappingService
 import ru.ifmo.kcs.hw2.service.UrlShorteningService
-import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @RestController
 class ShorteningController {
+    class ShorteningDto(val originalUrl: String)
+
     @Autowired
     private lateinit var urlShorteningService: UrlShorteningService
 
@@ -18,12 +19,21 @@ class ShorteningController {
     private lateinit var urlMappingService: UrlMappingService
 
     @PostMapping(value=["/url/generate"], produces=[MediaType.APPLICATION_JSON_VALUE])
-    @ResponseBody
-    fun generateLink(@RequestBody requestBody: Map<String, String>, request: HttpServletRequest, response: HttpServletResponse): UrlMapping {
-        val originalUrl = requestBody["src"] ?: error("Provide URL to shorten in 'src'")
+    fun generateLink(@RequestBody requestBody: ShorteningDto): UrlMapping {
+        val originalUrl = requestBody.originalUrl
         val shortUrl = urlShorteningService.shortenUrl(originalUrl)
         val urlMapping = UrlMapping(shortUrl, originalUrl)
         urlMappingService.saveNewMapping(urlMapping)
         return urlMapping
+    }
+
+    @GetMapping(value=["/urls/{short}"])
+    fun getUrlMapping(@PathVariable(value="short") shortUrl: String, response: HttpServletResponse) {
+        val urlMapping = urlMappingService.getByShortUrl(shortUrl)
+        if (urlMapping == null) {
+            response.sendError(400)
+        } else {
+            response.sendRedirect(urlMapping.originalUrl)
+        }
     }
 }
