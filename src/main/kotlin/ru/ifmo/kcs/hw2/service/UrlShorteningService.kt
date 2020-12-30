@@ -7,10 +7,10 @@ import ru.ifmo.kcs.hw2.model.Range
 
 @Service
 class UrlShorteningService {
-    private val charCount = 62
-    private val arr: Array<Char> = arrayOf('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-            'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9')
-    private val shortLinkSize = 8
+    private val arrCons: Array<Char> = arrayOf('b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z',
+            'B','C','D','F','G','H','J','K','L','M','N','P','Q','R','S','T','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9')
+    private val arrVow: Array<Char> = arrayOf('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U')
+    private val shortLinkSize = 6
 
     @Autowired
     private var range: Range? = null
@@ -32,12 +32,19 @@ class UrlShorteningService {
         }
         var count = current
         var short = ""
+        var cons = true
         while (count > 0) {
-            short += arr[(count % charCount).toInt()]
-            count /= charCount
+            if (cons) {
+                short += arrCons[(count % arrCons.size).toInt()]
+                count /= arrCons.size
+            } else {
+                short += arrVow[(count % arrVow.size).toInt()]
+                count /= arrVow.size
+            }
+            cons = !cons
         }
         while (short.length < shortLinkSize) {
-            short += arr[0]
+            short += '0'
         }
 
         current++
