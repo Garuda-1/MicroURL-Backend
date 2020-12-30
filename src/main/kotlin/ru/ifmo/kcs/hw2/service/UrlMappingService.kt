@@ -11,7 +11,8 @@ class UrlMappingService {
     private lateinit var urlMappingRepo: UrlMappingRepository
 
     fun getByShortUrl(shortUrl: String): UrlMapping? {
-        return urlMappingRepo.findById(shortUrl).orElse(null)
+//        return urlMappingRepo.findById(shortUrl).orElse(null)
+        return urlMappingRepo.findByShortUrl(shortUrl)
     }
 
     fun saveNewMapping(urlMapping: UrlMapping) {

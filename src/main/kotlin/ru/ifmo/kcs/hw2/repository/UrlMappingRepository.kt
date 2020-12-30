@@ -1,8 +1,8 @@
 package ru.ifmo.kcs.hw2.repository
 
-import org.socialsignin.spring.data.dynamodb.repository.EnableScan
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.jpa.repository.JpaRepository
 import ru.ifmo.kcs.hw2.model.UrlMapping
 
-@EnableScan
-interface UrlMappingRepository: CrudRepository<UrlMapping, String>
+interface UrlMappingRepository: JpaRepository<UrlMapping, Long> {
+    fun findByShortUrl(shortUrl: String): UrlMapping?
+}
