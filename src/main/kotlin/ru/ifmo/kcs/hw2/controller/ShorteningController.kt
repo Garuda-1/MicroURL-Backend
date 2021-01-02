@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/url")
 class ShorteningController(
         val urlValidator: UrlValidator
 ) {
@@ -47,7 +46,7 @@ class ShorteningController(
         return UrlMapping(shortUrl, originalUrl)
     }
 
-    @GetMapping("short/{short}")
+    @GetMapping("{short:[a-zaA-Z]{6}}")
     fun getUrlMapping(@PathVariable(value="short") shortUrl: String, response: HttpServletResponse) {
         val urlMapping = urlMappingService.getByShortUrl(shortUrl)
         if (urlMapping == null) {

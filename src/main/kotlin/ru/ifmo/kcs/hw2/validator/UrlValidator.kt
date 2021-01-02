@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component
 import org.springframework.validation.Errors
 import org.springframework.validation.Validator
 import ru.ifmo.kcs.hw2.controller.ShorteningController
+import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
@@ -18,11 +19,13 @@ class UrlValidator : Validator {
             val url = URL(urlMapping.originalUrl)
             val httpURLConnection = url.openConnection() as HttpURLConnection
             httpURLConnection.requestMethod = "HEAD"
-            if (httpURLConnection.responseCode !in 200..299) {
-                errors.reject("originalUrl.nonSuccessfulRc", "URL is unreachable")
+            if (httpURLConnection.responseCode in 400..404) {
+                errors.reject("originalUrl.nonSuccessfulRc", "URL is not unreachable")
             }
         } catch (e: MalformedURLException) {
             errors.reject("originalUrl.malformedUrl", "Malformed URL")
+        } catch (e: IOException) {
+            errors.reject("originalUrl.IOerror", "IO Error")
         }
     }
 }

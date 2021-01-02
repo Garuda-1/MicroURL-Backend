@@ -33,7 +33,7 @@ class UrlShorteningService {
         var count = current
         var short = ""
         var cons = true
-        while (count > 0) {
+        while (short.length < shortLinkSize) {
             if (cons) {
                 short += arrCons[(count % arrCons.size).toInt()]
                 count /= arrCons.size
@@ -42,9 +42,6 @@ class UrlShorteningService {
                 count /= arrVow.size
             }
             cons = !cons
-        }
-        while (short.length < shortLinkSize) {
-            short += '0'
         }
 
         current++
