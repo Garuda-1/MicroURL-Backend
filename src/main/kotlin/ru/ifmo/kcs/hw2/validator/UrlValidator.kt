@@ -5,6 +5,7 @@ import org.springframework.validation.Errors
 import org.springframework.validation.Validator
 import ru.ifmo.kcs.hw2.controller.ShorteningController
 import java.io.IOException
+import java.lang.IllegalArgumentException
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
@@ -24,10 +25,12 @@ class UrlValidator : Validator {
             }
         } catch (e: MalformedURLException) {
             errors.reject("originalUrl.malformedUrl", "Malformed URL")
+        } catch (e: IllegalArgumentException) {
+            errors.reject("originalUrl.malformedUrl", "Malformed URL")
         } catch (e: IOException) {
             errors.reject("originalUrl.IOerror", "IO Error")
         } catch (e: Exception) {
-            errors.reject("other", e.message ?: "Unknown error")
+            errors.reject("other", "Unknown error")
         }
     }
 }

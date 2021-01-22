@@ -51,18 +51,6 @@
             <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.amazonaws</groupId>-->
-<!--            <artifactId>aws-java-sdk-dynamodb</artifactId>-->
-<!--            <version>1.11.926</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>com.github.derjust</groupId>-->
-<!--            <artifactId>spring-data-dynamodb</artifactId>-->
-<!--            <version>5.0.0</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
