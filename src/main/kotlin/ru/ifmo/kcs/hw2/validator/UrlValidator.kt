@@ -26,6 +26,8 @@ class UrlValidator : Validator {
             errors.reject("originalUrl.malformedUrl", "Malformed URL")
         } catch (e: IOException) {
             errors.reject("originalUrl.IOerror", "IO Error")
+        } catch (e: Exception) {
+            errors.reject("other", e.message ?: "Unknown error")
         }
     }
 }
